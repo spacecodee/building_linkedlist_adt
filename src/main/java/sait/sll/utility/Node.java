@@ -6,12 +6,10 @@ public class Node implements Serializable {
 
     private Object data;
     private Node next;
-    private static int size = 0;
 
     public Node(Object data) {
         this.data = data;
         this.next = null;
-        Node.size++;
     }
 
     public Node(Object data, Node next) {

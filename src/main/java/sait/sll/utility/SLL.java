@@ -1,7 +1,5 @@
 package sait.sll.utility;
 
-import sait.sll.problemdomain.User;
-
 public class SLL implements LinkedListADT {
 
     private Node head;
@@ -31,13 +29,13 @@ public class SLL implements LinkedListADT {
 
     @Override
     public boolean isEmpty() {
-        return size == 0;
+        return this.size == 0;
     }
 
     @Override
     public void clear() {
-        size = 0;
-        head = tail = null;
+        this.size = 0;
+        this.head = this.tail = null;
     }
 
     //TODO: add last node
@@ -47,29 +45,54 @@ public class SLL implements LinkedListADT {
             this.tail.setNext(new Node(data));
             this.tail = this.getTail().getNext();
         } else {
-            head = tail = new Node(data);
+            this.head = this.tail = new Node(data);
         }
+
         this.size++;
     }
 
     //TODO: add first node
     @Override
     public void prepend(Object data) {
+        this.head = new Node(data, this.head);
 
+        if (this.tail == null)
+            this.tail = this.head;
+
+        this.size++;
     }
 
     @Override
     public void insert(Object data, int index) throws IndexOutOfBoundsException {
-        User user = (User) data;
+        if (index == 0) {
+            this.prepend(data);
+        } else if (this.size == index) {
+            this.append(data);
+        } else {
+            Node tempNode = this.head;
 
+            for (int i = 1; i < index; i++) {
+                tempNode = tempNode.getNext();
+            }
 
-        // TODO Auto-generated method stub
+            Node temp = tempNode.getNext();
+            tempNode.setNext(new Node(data, temp));
+            tempNode.getNext().setNext(temp);
+
+            size++;
+        }
 
     }
 
     @Override
     public void replace(Object data, int index) throws IndexOutOfBoundsException {
-        // TODO Auto-generated method stub
+        int i = 1;
+        for (Node tempNode = this.head; tempNode != null; tempNode = tempNode.getNext()) {
+            if (index == i) {
+                tempNode.setData(data);
+            }
+            i++;
+        }
     }
 
     @Override
