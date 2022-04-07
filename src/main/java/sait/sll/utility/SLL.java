@@ -1,6 +1,8 @@
 package sait.sll.utility;
 
-public class SLL implements LinkedListADT {
+import java.io.Serializable;
+
+public class SLL implements LinkedListADT, Serializable {
 
     private Node head;
     private Node tail;
@@ -86,7 +88,10 @@ public class SLL implements LinkedListADT {
 
     @Override
     public void replace(Object data, int index) throws IndexOutOfBoundsException {
-        int i = 1;
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException();
+        }
+        int i = 0;
         for (Node tempNode = this.head; tempNode != null; tempNode = tempNode.getNext()) {
             if (index == i) {
                 tempNode.setData(data);
@@ -103,27 +108,103 @@ public class SLL implements LinkedListADT {
     @Override
     public void delete(int index) throws IndexOutOfBoundsException {
         // TODO Auto-generated method stub
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException();
+        } else if (index == 0) {
+            if (this.head.getData() != null) {
+                this.head = head.getNext();
+            } else {
+                this.head = null;
+                tail = null;
+            }
+            size--;
 
+        } else if (index == this.size - 1) {
+            Node previusNode = null;
+            Node currentNode = this.head;
+
+            while (currentNode.getNext() != null) {
+                previusNode = currentNode;
+                currentNode = currentNode.getNext();
+            }
+            assert previusNode != null;
+            previusNode.setNext(null);
+            this.tail = previusNode;
+            size--;
+        } else {
+            Node previusNode = this.head;
+            Node currentNode = this.head.getNext();
+            for (int i = 1; i < this.size; i++) {
+                if (i != index) {
+                    previusNode = currentNode;
+                    currentNode = currentNode.getNext();
+
+                } else {
+                    previusNode.setNext(currentNode.getNext());
+                    size--;
+                }
+            }
+        }
     }
 
     @Override
     public Object retrieve(int index) throws IndexOutOfBoundsException {
-        // TODO Auto-generated method stub
-        return null;
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException();
+        } else if (index == 0) {
+            return this.head.getData();
+        } else if (index == (this.size - 1)) {
+            return this.tail.getData();
+        } else {
+            Node currentNode = this.head;
+            int counter = 0;
+            while (index != counter) {
+                currentNode = currentNode.getNext();
+                counter++;
+            }
+            return currentNode.getData();
+        }
     }
 
     @Override
     public int indexOf(Object data) {
-        // TODO Auto-generated method stub
-        return 0;
+        int index = 0;
+
+        // looping and searching for node with element=e
+
+        for (Node currentNode = this.head; currentNode != null; currentNode = currentNode.getNext()) {
+
+            if (currentNode.getData().equals(data)) {
+
+                // found, returning index
+
+                return index;
+            }
+            // updating index
+            index++;
+        }
+        // not found
+        return -1;
     }
 
     @Override
     public boolean contains(Object data) {
-        // TODO Auto-generated method stub
+
+        // looping and checking if any node's value equals e
+
+        for (Node currentNode = this.head; currentNode != null; currentNode = currentNode.getNext()) {
+
+            if (currentNode.getData().equals(data)) {
+
+                // found
+                return true;
+            }
+        }
+        // not found
         return false;
     }
 
+/*
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -135,5 +216,23 @@ public class SLL implements LinkedListADT {
             sb.replace(sb.length() - 2, sb.length(), "");
         }
         return sb.toString();
+    }*/
+
+    public String toString() {
+        StringBuilder result = new StringBuilder("[");
+
+        Node tempNode = this.head;
+        for (int i = 0; i < size; i++) {
+            assert tempNode != null;
+            result.append(tempNode.getData());
+            tempNode = tempNode.getNext();
+            if (tempNode != null) {
+                result.append(", "); // Separate two elements with a comma
+            } else {
+                result.append("]"); // Insert the closing ] in the string
+            }
+        }
+
+        return result.toString();
     }
 }

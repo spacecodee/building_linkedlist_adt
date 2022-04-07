@@ -6,38 +6,34 @@ import org.junit.jupiter.api.*;
 
 import sait.sll.utility.*;
 
-public class LinkedListTests {
+/**
+ * @author Nick Hamnett
+ * @author Maryam Moussavi
+ * @version 2020-03-24
+ */
+class LinkedListTests {
+    /**
+     * Contains the linked list that is manipulated in each test.
+     */
     private LinkedListADT linkedList;
 
-    /**
-     * @throws java.lang.Exception
-     */
     @BeforeEach
     void setUp() throws Exception {
         // Create your concrete linked list class and assign to to linkedList.
-        //this.linkedList = new SLL();
+        this.linkedList = new SLL();
     }
 
-    /**
-     * @throws java.lang.Exception
-     */
     @AfterEach
     void tearDown() throws Exception {
         this.linkedList.clear();
     }
 
-    /**
-     * Test the linked list is empty.
-     */
     @Test
     void testIsEmpty() {
         assertTrue(this.linkedList.isEmpty());
         assertEquals(0, this.linkedList.size());
     }
 
-    /**
-     * Tests appending elements to the linked list.
-     */
     @Test
     void testAppendNode() {
         this.linkedList.append("a");

@@ -1,8 +1,9 @@
 package sait.sll.problemdomain;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class User {
+public class User implements Serializable {
 
     public User() {
     }
@@ -64,8 +65,8 @@ public class User {
     }
 
     public boolean isCorrectPassword(String password) {
-        if (this.password == null && password == null) return true;
-        else if (this.password == null || password == null) return false;
+        if (this.password == null && password == null) return false;
+        else if (this.password == null || password == null) return true;
         else return this.password.equals(password);
     }
 
